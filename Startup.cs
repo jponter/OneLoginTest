@@ -81,10 +81,22 @@ namespace OneLoginTest
                 };
                 options.ResponseType = OpenIdConnectResponseType.IdToken;
                 options.GetClaimsFromUserInfoEndpoint = true;
-                options.ClaimActions.MapJsonKey("Groups", "Groups");
+
+                options.Scope.Add("roles");
+                options.Scope.Add("groups");
+
+
+                options.ClaimActions.MapJsonKey("role", "role","role");
+                options.TokenValidationParameters.RoleClaimType = "role";
+                options.TokenValidationParameters.NameClaimType = "name";
 
             }
             );
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("JPADMIN", policy => policy.RequireClaim("groups", "FundingAdmin"));
+            });
 
             services.Configure<OidcOptions>(Configuration.GetSection("oidc"));
 
@@ -113,6 +125,9 @@ namespace OneLoginTest
 
             app.UseAuthentication();
             app.UseAuthorization();
+                
+                
+                
 
             // This is needed if running behind a reverse proxy
             // like ngrok which is great for testing while developing

@@ -40,6 +40,8 @@ namespace OneLoginTest.Pages
                     bool isAdmin = (bool)details["jp_funding_admin"];
                     if (isAdmin)
                     {
+                        //bool arethey = User.IsInRole("admin");
+                        
                         return true;
                     }
                     else
@@ -56,10 +58,14 @@ namespace OneLoginTest.Pages
         public void OnGet()
         {
             isAdmin = IsAdmin();
-            
-            
-            
-            
+            //foreach (var group in User.Claims.Where(x => x.Type == "groups"))
+            //{
+            //    User.Claims.Append(new Claim(ClaimTypes.Role, group.Value));
+            //    User.AddIdentities(new Claim(ClaimTypes.Role, group.Value));
+            //}
+
+
+
         }
 
         public async Task<IActionResult> OnPost()
